@@ -1,0 +1,174 @@
+﻿<Window
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:local="clr-namespace:CovarianceVaRCalculator"
+	x:Class="CovarianceVaRCalculator.MainWindow" 
+	Title="Ilias Kolonias Covariance VaR Calculation Test"
+	Height="480"
+	Width="640">
+	<Grid>
+		<StackPanel
+			x:Name="MainPanel"
+			HorizontalAlignment="Stretch"
+			Margin="0,0,0,0"
+			VerticalAlignment="Stretch"
+		>
+			<TextBlock
+				x:Name="Header"
+				HorizontalAlignment="Left"
+				TextWrapping="Wrap"
+				Text="Parametric (Covariance) VaR Calculation Test"
+				VerticalAlignment="Top"
+				FontSize="24"
+				Width="600"
+			/>
+			<WrapPanel
+				x:Name="BodyPanel"
+				HorizontalAlignment="Stretch"
+				Margin="0,0,0,0"
+				VerticalAlignment="Stretch"
+				Width="620"
+				Height="400"
+			>
+				<StackPanel
+					x:Name="LeftPanel"
+					HorizontalAlignment="Stretch"
+					Margin="0,0,0,0"
+					VerticalAlignment="Stretch"
+					Width="120"
+				>
+					<TextBlock
+						x:Name="StartDateLabel"
+						TextWrapping="NoWrap"
+						HorizontalAlignment="Left"
+						Margin="0,24,0,0"
+						Text="Start Date"
+					/>
+					<DatePicker
+						x:Name	= "StartDate"
+						ToolTip	= "Select Start Date for VaR simulation"
+					/>
+
+					<TextBlock
+						x:Name="EndDateLabel"
+						TextWrapping = "NoWrap"
+						HorizontalAlignment = "Left"
+						Margin = "0,24,0,0"
+						Text = "End Date"
+					/>
+					<DatePicker
+						x:Name = "EndDate"
+						ToolTip	= "Select End Date for VaR simulation"
+					/>
+
+					<TextBlock
+						x:Name="NumSecuritiesLabel"
+						TextWrapping = "NoWrap"
+						HorizontalAlignment = "Left"
+						Margin = "0,24,0,0"
+						Text = "Number of Securities"
+					/>
+					<TextBox
+						x:Name = "NumSecurities"
+						PreviewTextInput ="checkInt"
+						DataObject.Pasting = "validateInt"
+					/>
+
+					<TextBlock
+						x:Name="ConfidenceLabel"
+						TextWrapping = "NoWrap"
+						HorizontalAlignment = "Left"
+						Margin = "1,24,0,0"
+						Text = "Confidence (%)"
+					/>
+					<TextBox
+						x:Name = "ConfidencePercent"
+						PreviewTextInput ="checkDouble"
+						DataObject.Pasting = "validateDouble"
+					/>
+
+					<Button
+						x:Name = "RunButton" 
+						Content = "Run VaR"
+						ToolTip = "Execute the simulation with the parameters above"
+					/>
+					<Button 
+						x:Name = "CancelButton" 
+						Content = "Cancel Run"
+						ToolTip = "Stops the simulation if it's running"
+					/>
+
+					<TextBlock
+						x:Name="ProgressLevel"
+						TextWrapping = "NoWrap"
+						HorizontalAlignment = "Left"
+						Margin = "1,24,0,0"
+						Text = "Calculation progress"
+					/>
+					<ProgressBar
+						x:Name = "ProgressShow"
+						Height="16"
+					/>
+				</StackPanel>
+				<StackPanel
+					x:Name="RightPanel"
+					HorizontalAlignment = "Stretch"
+					Margin = "20,0,0,0"
+					VerticalAlignment = "Stretch"
+					Width="480"
+				>
+					<DataGrid
+						x:Name="VaRData"
+						HorizontalAlignment="Left"
+						Width="480"
+						Height="360"
+						CanUserAddRows="False"
+						CanUserDeleteRows="False"
+						AutoGenerateColumns="False"
+						ItemsSource="{Binding Securities}"
+					>
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Security Name" Binding="{Binding securityName}" />
+							<DataGridTextColumn Header="VaR in portfolio" Binding="{Binding VaRDisaggregated}" />
+							<DataGridTextColumn Header="VaR standalone" Binding="{Binding VaRStandalone}" />
+						</DataGrid.Columns>
+
+						<DataGrid.DataContext>
+							<local:MainWindowViewModel/>
+						</DataGrid.DataContext>
+					</DataGrid>
+
+					<WrapPanel
+						x:Name="TotalPanel"
+						HorizontalAlignment="Stretch"
+						Margin="0,0,0,0"
+						VerticalAlignment="Stretch"
+					>
+						<TextBlock
+							x:Name="TotalLabel"
+							HorizontalAlignment="Left"
+							TextWrapping="NoWrap"
+							Text="Total Portfolio VaR:"
+							VerticalAlignment="Top"
+							FontSize="12"
+							Width="350"
+							Height="16"
+						/>
+						<TextBlock
+							x:Name="Total"
+							HorizontalAlignment="Right"
+							TextWrapping="NoWrap"
+							Text=""
+							VerticalAlignment="Top"
+							FontSize="12"
+							Width="100"
+							Height="16"
+						/>
+					</WrapPanel>
+				</StackPanel>
+			</WrapPanel>
+		</StackPanel>
+	</Grid>
+</Window>
