@@ -201,7 +201,6 @@ namespace CovarianceVaRCalculator_Engine
 			int secCount = (e.Argument as Tuple<int, int, int, BackgroundWorker>).Item1;
 			int horizon = (e.Argument as Tuple<int, int, int, BackgroundWorker>).Item2;
 			int curSec = (e.Argument as Tuple<int, int, int, BackgroundWorker>).Item3;
-			//BackgroundWorker parent = (e.Argument as Tuple<int, int, int, BackgroundWorker>).Item4;
 			BackgroundWorker worker = sender as BackgroundWorker;
 			Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
 			if ((worker != null) && (e != null))
@@ -317,42 +316,15 @@ namespace CovarianceVaRCalculator_Engine
 			}
 			for (i = 0; i < secData.Count; i++)
 			{
-				//for (j = 0; j < secData.Count; j++)
-				//{
-				//	if (i >= j)
-				//	{
-				//		for (int k = 0; k < horizon; k++)
-				//		{
-				//			volatilityMatrix[i, j] += logReturns[k, i] * logReturns[k, j] * amortisationRates[k, 0];
-				//		}
-				//	}
-				//	else volatilityMatrix[i, j] = volatilityMatrix[j, i];
-				//}
 				while (32 == threadsRunning) Thread.Sleep(1);
 				covarianceThreads[i].RunWorkerAsync(new Tuple<int, int, int, BackgroundWorker>(secData.Count, horizon, i, worker));
 				Interlocked.Increment(ref threadsRunning);
-				//if (worker != null)
-				//{
-				//	percentComplete = 100 * (i + 1) / secData.Count;
-				//	if (percentComplete > highestPercentageReached)
-				//	{
-				//		highestPercentageReached = percentComplete;
-				//		worker.ReportProgress(percentComplete);
-				//	}
-				//}
 			}
 
 			while (numThreadsCompleted < secData.Count)
 			{
-			//	if (worker != null)
-			//	{
-			//		percentComplete = 100 * numThreadsCompleted / secData.Count;
-			//		if (percentComplete > highestPercentageReached)
-			//		{
-			//			highestPercentageReached = percentComplete;
-			//			worker.ReportProgress(highestPercentageReached);
-			//		}
-			//	}
+				//Sit tight ad wait nocely for everything to end...
+				Thread.Sleep(1);
 			}
 
 			if (2 < allowDebugOutput)

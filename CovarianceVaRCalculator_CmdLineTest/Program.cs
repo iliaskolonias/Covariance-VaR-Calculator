@@ -36,7 +36,6 @@ namespace CovarianceVaRCalculator_CmdLineTest
 								sd.Key, h.Key, h.Value.dataPoint.Item1, h.Value.dataPoint.Item2, h.Value.dataPointSize());
 						}
 						Console.WriteLine();
-						//Console.WriteLine("{0}: {1}", sd.Key, sd.Value.secHist.secHistory.Average(x => x.Value.dataPoint.Item2));
 					}
 				}
 
